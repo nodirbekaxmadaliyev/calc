@@ -2,63 +2,77 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-do
+internal class Program
 {
-
-Console.WriteLine("Kerakli bo'limni tanlang: \n");
-Console.WriteLine("1 - Elementar xisob-kitob.\n\n2 - Log a (b) ni xisoblash.\n\n3 - Dasturni yakunlash.\n");
-string amal = Console.ReadLine();
-switch(amal)
-{
-    case "1": 
-
-
-    default :
-    return 0;
-
-}
-
-}while(true);
-
-void calc()
-{
-    List <double> nums = new List<double>();
-    List <char> amallar = new List<char>();
-    int index = 0;
-    double ans = 0;
-    Console.Clear();
-    Console.WriteLine("Elementar xisob-kitob bo'limi:\n");
-    Console.WriteLine("Amallarni kiriting ('*', '/', '+', '-'):");
-    string ifoda = Console.ReadLine(); 
-    int size = ifoda.Length;
-    while(index < size)
+    private static int Main(string[] args)
     {
-        nums.Add(num(ifoda, index));
-        if (index < size) amallar.Add(ifoda[index]);
-    }
-    
-}
-
-double num(string ifoda, int index)
-{
-    int ans = 0, size = ifoda.Length;
-    while(index < size && ifoda[index] <= '9' && ifoda[index] >= '0')
+        string ifoda = "";
+            int index = 0, firstNum = 0, secondNum = 0;
+        do
         {
-            ans *=  10;
-            ans += ifoda[index];
-            index ++;
-        }
-    return ans;
-}
-
-double get(double firstNum, double secondNum, char amal)
-{
-    switch (amal)
-    {
-        case '+': return firstNum + secondNum;
-        case '-': return firstNum - secondNum;
-        case '*': return firstNum * secondNum;
-        case '/': return firstNum / secondNum;
-        default : return 0;
+            ifoda = "";
+            index = 0;
+            firstNum = 0;
+            secondNum = 0;
+            Console.WriteLine("\n\nKerakli bo'limni tanlang: \n");
+            Console.WriteLine("1 - Elementar xisob-kitob.\n\n2 - Log a (b) ni xisoblash.\n\n3 - Dasturni yakunlash.\n");
+            string amal = Console.ReadLine();
+            switch (amal)
+            {
+                case "1":
+                    Console.WriteLine("Elementar xisob-kitob:\n");
+                    Console.WriteLine("Ifodani kiriting(a + {'^', '*', '/', '+', '-' + b})");
+                    ifoda = Console.ReadLine();
+                    while (ifoda[index] >= '0' && ifoda[index] <= '9')
+                    {
+                        firstNum *= 10;
+                        firstNum += ifoda[index] - '0';
+                        index++;
+                    }
+                    char belgi = ifoda[index];
+                    while (index < ifoda.Length)
+                    {
+                        secondNum *= 10;
+                        secondNum += ifoda[index] - '0';
+                        index++;
+                    }
+                    Console.Write("Javob : ");
+                    switch (belgi)
+                    {
+                        case '*': Console.WriteLine(firstNum * secondNum); break;
+                        case '/': Console.WriteLine(1.0 * firstNum / secondNum); break;
+                        case '+': Console.WriteLine(firstNum + secondNum); break;
+                        case '-': Console.WriteLine(firstNum - secondNum); break;
+                        case '^':
+                            long ans = firstNum;
+                            while (secondNum-- > 1)
+                                ans *= firstNum;
+                            Console.WriteLine(ans); break;
+                    }
+                    break;
+                case "2":
+                    Console.WriteLine("Log a (b)\n");
+                    Console.WriteLine("Ifodani kiriting(Log a (b)) : ");
+                    ifoda = Console.ReadLine();
+                    index = 4;
+                    while (ifoda[index] != ' ')
+                    {
+                        firstNum *= 10;
+                        firstNum += ifoda[index] - '0';
+                        index++;
+                    }
+                    index += 2;
+                    while (ifoda[index] != ')')
+                    {
+                        secondNum *= 10;
+                        secondNum += ifoda[index] - '0';
+                        index++;
+                    }
+                    Console.WriteLine("Javob : " + 1.0 * Math.Log2(secondNum) / Math.Log2(firstNum));
+                    break;
+                case "3": return 0;
+                default: return 0;
+            }
+        } while (true);
     }
-} 
+}
