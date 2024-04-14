@@ -1,78 +1,66 @@
-﻿using System.ComponentModel;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-
-internal class Program
+﻿string input;
+Console.WriteLine("Sodda kalkulatorga xush kelibsiz!");
+do
 {
-    private static int Main(string[] args)
+    Console.WriteLine("1. +, -, *, /, ^ amallari yordamida ish bajarish");
+    Console.WriteLine("2. Sonning logarifmini topish");
+    Console.WriteLine("3. Dasturni tugatish.");
+    input = Console.ReadLine();
+    switch (input)
     {
-        string ifoda = "";
-            int index = 0, firstNum = 0, secondNum = 0;
-        do
-        {
-            ifoda = "";
-            index = 0;
-            firstNum = 0;
-            secondNum = 0;
-            Console.WriteLine("\n\nKerakli bo'limni tanlang: \n");
-            Console.WriteLine("1 - Elementar xisob-kitob.\n\n2 - Log a (b) ni xisoblash.\n\n3 - Dasturni yakunlash.\n");
-            string amal = Console.ReadLine();
-            switch (amal)
+        case "1":
             {
-                case "1":
-                    Console.WriteLine("Elementar xisob-kitob:\n");
-                    Console.WriteLine("Ifodani kiriting(a + {'^', '*', '/', '+', '-' + b})");
-                    ifoda = Console.ReadLine();
-                    while (ifoda[index] >= '0' && ifoda[index] <= '9')
-                    {
-                        firstNum *= 10;
-                        firstNum += ifoda[index] - '0';
-                        index++;
-                    }
-                    char belgi = ifoda[index];
-                    while (index < ifoda.Length)
-                    {
-                        secondNum *= 10;
-                        secondNum += ifoda[index] - '0';
-                        index++;
-                    }
-                    Console.Write("Javob : ");
-                    switch (belgi)
-                    {
-                        case '*': Console.WriteLine(firstNum * secondNum); break;
-                        case '/': Console.WriteLine(1.0 * firstNum / secondNum); break;
-                        case '+': Console.WriteLine(firstNum + secondNum); break;
-                        case '-': Console.WriteLine(firstNum - secondNum); break;
-                        case '^':
-                            long ans = firstNum;
-                            while (secondNum-- > 1)
-                                ans *= firstNum;
-                            Console.WriteLine(ans); break;
-                    }
-                    break;
-                case "2":
-                    Console.WriteLine("Log a (b)\n");
-                    Console.WriteLine("Ifodani kiriting(Log a (b)) : ");
-                    ifoda = Console.ReadLine();
-                    index = 4;
-                    while (ifoda[index] != ' ')
-                    {
-                        firstNum *= 10;
-                        firstNum += ifoda[index] - '0';
-                        index++;
-                    }
-                    index += 2;
-                    while (ifoda[index] != ')')
-                    {
-                        secondNum *= 10;
-                        secondNum += ifoda[index] - '0';
-                        index++;
-                    }
-                    Console.WriteLine("Javob : " + 1.0 * Math.Log2(secondNum) / Math.Log2(firstNum));
-                    break;
-                case "3": return 0;
-                default: return 0;
+                Console.Write("Ifodani kiriting : ");
+                string ifoda = Console.ReadLine();
+                string amal = "";
+                if (ifoda.Contains("+"))
+                {
+                    amal = "+";
+                }
+                else if (ifoda.Contains("-"))
+                {
+                    amal = "-";
+                }
+                else if (ifoda.Contains("*"))
+                {
+                    amal = "*";
+                }
+                else if (ifoda.Contains("/"))
+                {
+                    amal = "/";
+                }
+                else if (ifoda.Contains("^"))
+                {
+                    amal = "^";
+                }
+                string strNum1 = ifoda.Substring(0, ifoda.IndexOf(amal));
+                string strNum2 = ifoda.Substring(ifoda.IndexOf(amal) + 1);
+                double firstNumber = Convert.ToDouble(strNum1);
+                double secondNumber = Convert.ToDouble(strNum2);
+                double natija = amal switch
+                {
+                    "+" => firstNumber + secondNumber,
+                    "-" => firstNumber - secondNumber,
+                    "*" => firstNumber * secondNumber,
+                    "/" => firstNumber / secondNumber,
+                    "^" => Math.Pow(firstNumber, secondNumber),
+                };
+                Console.WriteLine($"{ifoda} = {natija}");
             }
-        } while (true);
+            break;
+        case "2":
+            {
+                Console.Write("Ifodani kiriting [log125(125)]: ");
+                string ifoda = Console.ReadLine();
+                int index1 = ifoda.IndexOf("(");
+                int index2 = ifoda.IndexOf(")");
+                string strNum1 = ifoda.Substring(3, index1 - 2 - 1);
+                string strNum2 = ifoda.Substring(index1 + 1, index2 - index1 - 1);
+                double num1 = Convert.ToDouble(strNum1);
+                double num2 = Convert.ToDouble(strNum2);
+                float natija = (float)(Math.Log(num2) / Math.Log(num1));
+                Console.WriteLine($"{ifoda} = {natija}");
+            }
+            break;
     }
-}
+} while (input != "3");
